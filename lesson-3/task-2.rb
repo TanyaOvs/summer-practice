@@ -24,8 +24,7 @@ START_CAPITAL = "100.00"
 # если файл не существует, то создаем его и определяем стартовый капитал
 unless File.exist?("balance.txt")
   puts "Файл с балансом не существует. Создаем новый файл со стартовым капиталом 100 рублей."
-  new_balance_file = File.open("balance.txt", "w").write(START_CAPITAL)
-  new_balance_file.close
+  File.open("balance.txt", "w") {|f| f.write(START_CAPITAL); f.close}
 end
 
 puts "Введите команду для работы с балансом:"

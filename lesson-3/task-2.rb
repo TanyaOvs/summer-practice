@@ -15,6 +15,8 @@ def deposit
     balance_file.close
     File.open("balance.txt", "w") {|f| f.write(new_balance); f.close}
     puts "Сумма #{money} внесена! :)"
+  else
+    puts "Вы ввели некорректную сумму! Сумма должна быть больше 0."
   end
 end
 
@@ -28,7 +30,18 @@ def withdraw
     balance_file.close
     File.open("balance.txt", "w") {|f| f.write(new_balance); f.close}
     puts "Сумма #{money} снята! :)\nВаш текущий баланс: #{new_balance}"
+  else
+    puts "Вы ввели некорректную сумму! Сумма должна быть больше 0 и меньше (или равна) текущему балансу."
+    balance_file.close
   end
+
+end
+
+def balance
+  balance_file = File.open("balance.txt")
+  current_balance = balance_file.read.to_f
+  puts "Ваш текущий баланс составляет: #{current_balance}"
+  balance_file.close
 end
 
 # базовый капитал на счёте
@@ -49,10 +62,13 @@ while action != "Q"
   elsif action == "W"
     withdraw
   elsif action == "B"
-    break
+    balance
   else
     puts "Вы ввели несуществующую команду! Внимательно просмотрите список команд и повторите попытку."
   end
+
   puts "Введите команду для работы с балансом:"
+  puts commands
   action = gets.chomp.upcase
 end
+puts "Завершение работы программы."

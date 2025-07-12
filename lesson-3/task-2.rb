@@ -18,6 +18,19 @@ def deposit
   end
 end
 
+def withdraw
+  puts "Введите сумму для снятия:"
+  money = gets.chomp.to_f
+  balance_file = File.open("balance.txt")
+  current_balance = balance_file.read.to_f
+  if money > 0 && money.is_a?(Float) && money <= current_balance
+    new_balance = current_balance - money
+    balance_file.close
+    File.open("balance.txt", "w") {|f| f.write(new_balance); f.close}
+    puts "Сумма #{money} снята! :)\nВаш текущий баланс: #{new_balance}"
+  end
+end
+
 # базовый капитал на счёте
 START_CAPITAL = "100.00"
 
@@ -34,11 +47,12 @@ while action != "Q"
   if action == "D"
     deposit
   elsif action == "W"
-    break
+    withdraw
   elsif action == "B"
     break
   else
     puts "Вы ввели несуществующую команду! Внимательно просмотрите список команд и повторите попытку."
   end
+  puts "Введите команду для работы с балансом:"
   action = gets.chomp.upcase
 end
